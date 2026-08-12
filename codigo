@@ -1,0 +1,17 @@
+## DDL ##
+
+drop table PRODUTOS if exists
+
+CREATE TABLE produtos (
+codigo int primary key,
+descricao varchar(255) not null,
+preco decimal(16, 2) not null,
+ativo boolean not null,
+data_cadastro timestamp not null
+);
+
+ALTER TABLE produtos
+ADD COLUMN categoria VARCHAR(100);
+
+ALTER TABLE produtos
+DROP COLUMN categoria;
