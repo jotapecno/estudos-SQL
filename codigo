@@ -9,6 +9,7 @@
 
 // Excluir tabela caso ela exista
 DROP TABLE IF EXISTS produtos;
+DROP TABLE IF EXISTS categorias;
 
 // Criar nova tabela
 CREATE TABLE produtos (
@@ -31,6 +32,20 @@ ADD COLUMN categoria VARCHAR(100);
 // Excluir uma coluna
 ALTER TABLE produtos
 DROP COLUMN categoria;
+
+// Adicionar código da categoria
+ALTER TABLE produtos
+ADD COLUMN categoria_codigo INT;
+
+
+// ==================================================
+// Criar tabela de categorias
+// ==================================================
+
+CREATE TABLE categorias (
+    codigo INT PRIMARY KEY,
+    descricao VARCHAR(100) NOT NULL
+);
 
 
 // ==================================================
@@ -62,6 +77,18 @@ VALUES
 
 
 // ==================================================
+// Inserir categorias
+// ==================================================
+
+INSERT INTO categorias
+(codigo, descricao)
+VALUES
+(1, 'Alimentos'),
+(2, 'Bebidas'),
+(3, 'Higiene');
+
+
+// ==================================================
 // UPDATE
 // ==================================================
 
@@ -69,6 +96,12 @@ VALUES
 UPDATE produtos
 SET preco = 16.25
 WHERE codigo = 10;
+
+
+// Associar produtos às categorias
+UPDATE produtos
+SET categoria_codigo = 1
+WHERE codigo IN (10, 30);
 
 
 // ==================================================
@@ -144,3 +177,18 @@ SELECT
     prod.preco AS prec
 FROM
     produtos prod;
+
+
+// ==================================================
+// INNER JOIN
+// ==================================================
+
+// Mostrar produtos junto com suas categorias
+SELECT
+    p.codigo,
+    p.descricao AS produto,
+    p.preco,
+    c.descricao AS categoria
+FROM produtos p
+INNER JOIN categorias c
+    ON p.categoria_codigo = c.codigo;
